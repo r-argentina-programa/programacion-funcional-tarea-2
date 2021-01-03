@@ -39,14 +39,14 @@ describe('Tests', () => {
     expect(obtenerNombre({ pais: 'Argentina' })).toBeFalsy();
   });
 
-  it('multiplicarAtributo nos devuelve una función para multiplicar los numeros en un atributo de un objeto', () => {
+  it('multiplicarAtributo es una función con curry aplicado que multiplica los numeros en un atributo de un objeto', () => {
     const multiplicarDias = fns.multiplicarAtributo('dias');
 
     expect(typeof multiplicarDias).toEqual('function');
 
     expect(multiplicarDias({ dias: [1] })).toEqual(1);
     expect(multiplicarDias({ dias: [3, 2, 5] })).toEqual(30); // 3 * 2 * 5 === 30
-    expect(multiplicarDias({ dias: [9, 2, 6] })).toEqual(108); // 9 * 2 * 6 === 108
+    expect(fns.multiplicarAtributo('dias', { dias: [9, 2, 6] })).toEqual(108); // 9 * 2 * 6 === 108
   });
 
   it('ordenarPor es una función con curry aplicado que ordena un array de objetos por el atributo que le pasamos (de mayor a menor)', () => {
