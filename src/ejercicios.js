@@ -1,15 +1,18 @@
 import fp from 'lodash/fp';
 
-export const fibo = (n, cache = []) => {
+export const fibo = function() {
+    let cache = [];
+    return function fib(n) {
     if (cache[n]) {
         return cache[n]
     } else if (n < 2) {
         return n
     } else {
-        cache[n] = fibo(n - 1, cache) + fibo(n-2, cache)
+        cache[n] = fib(n - 1) + fib(n - 2)
     }
-    return cache[n]
-};
+    return cache[n];
+  }
+}();
 
 export const factorial = n => {
     if (n < 1) {
@@ -30,8 +33,8 @@ export const multiplicacion = arr => {
 
 export const atributo = prop => obj => obj[prop];
 
-export const multiplicarAtributo = fp.curry((attr, obj) => {
-    return obj[attr].reduce((acc, n) => acc * n);
+export const multiplicarAtributo = fp.curry((prop, obj) => {
+    return multiplicacion(atributo(prop)(obj))
 });
 
 export const ordenarPor = fp.curry((attr, arr) => {
@@ -39,6 +42,6 @@ export const ordenarPor = fp.curry((attr, arr) => {
 });
 
 export const mayorPersona = arr => {
-    const firstElement = fp.first(fp.reverse(fp.sortBy(element => element['edad'], arr)))
-    return firstElement.nombre
+    const firstElement = fp.first(ordenarPor('edad')(arr))
+    return atributo('nombre')(firstElement);
 };
